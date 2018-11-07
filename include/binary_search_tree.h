@@ -192,7 +192,7 @@ private:
 
 /* PART 2: Tree-traversal functions */
 template <typename T> 
-void showIndented(const Node<T>* node, int depth){
+void showTree(const Node<T>* node, int depth){
   //TODO
 }
 #endif
