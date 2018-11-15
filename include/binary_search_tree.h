@@ -1,17 +1,6 @@
 #ifndef _BINARY_SEARCH_TREE_H_
 #define _BINARY_SEARCH_TREE_H_
-
-
-
-
-
-
-
-
-
-
-
-/* PART 1: implemenation */
+//PART 1
 template <typename T>
 struct Node {
   T info;
@@ -57,7 +46,22 @@ public:
 
   //Returns how many links it takes to get to node from the root
   int level(T e) const{
-    //TODO
+    int c = 0;
+    Node<T>* current = root;
+    while (current != nullptr) {
+      if (current->info == e) {
+        return c;
+      }
+      else if (current->info > e) {
+        current = current->llink;
+        c++;
+      }
+      else {
+        current = current->rlink;
+        c++;
+      }
+    }
+    return 0;
   } 
 
   //Returns the node with the minimum value
@@ -84,17 +88,18 @@ public:
     return minimum(node->rlink);
   }
 
-  /* Returns how many node in a tree */
+  //Returns how many node in a tree
   int size() const { return size(root); }
   int size(const Node<T>* node) const {
     if(node){
       return 1 + size(node->llink) + size(node->rlink);
-    }else {
+    }
+    else {
       return 0;
     }
   }
 
-  /* Returns how many leaf nodes (nodes without children) in the tree */
+  // Returns how many leaf nodes (nodes without children) in the tree
   int leavesCount() const { return leavesCount(root); }
   int leavesCount(const Node<T>* node) const{
     if(node){
@@ -108,9 +113,9 @@ public:
     }
   }
 
-  /* Puts the nodes of the tree into an array in ascending or descending order */
+  // Puts the nodes of the tree into an array in ascending or descending order
   void toSortedArray(Node<T>* &array, bool reversed = false){
-    //TODO
+
   }
 
   /* Implements inorder traversal */
@@ -143,9 +148,22 @@ public:
     }
   }
 
-  /* Returns true if e was found */
+  //Returns true if e was found
   const Node<T>* search(T e) const{
-    //TODO
+    Node<T>* current;
+    current = root;
+    while (current != nullptr) {
+      if (current->info == e) {
+        return current;
+      }
+      else if (current->info > e) {
+        current = current->llink;
+      }
+      else {
+        current = current->rlink;
+      }
+    }
+    return nullptr;
   }  
 
   /* Returns true if e was successfully inserted */
@@ -180,7 +198,7 @@ public:
   }
   
   /* Returns true if e was successfully deleted */
-  bool remove(Node<T>* &node, T e){
+  bool remove(Node<T>* &node , T e){
     if(node){
       if(e < node->info){
         return remove(node->llink, e);
@@ -225,20 +243,9 @@ private:
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* PART 2: Tree-traversal functions */
+//PART 2
 template <typename T> 
 void showTree(const Node<T>* node, int depth){
-  //TODO
+
 }
 #endif
