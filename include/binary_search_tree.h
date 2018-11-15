@@ -37,7 +37,7 @@ public:
 
   bool empty() const { return root == nullptr; }
 
-  /* Returns how many nodes in the longest path between the root and a child */
+  //Returns how many nodes in the longest path between the root and a child
   int height() const { return height(root); }
   int height(const Node<T> *node) const {
     if (node != nullptr){
