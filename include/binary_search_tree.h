@@ -55,21 +55,33 @@ public:
       return y;
   }
 
-  /* Returns how many links between nodes it takes to get to node from the root */
+  //Returns how many links it takes to get to node from the root
   int level(T e) const{
     //TODO
   } 
 
-  /* Returns the node with the minimum value */
+  //Returns the node with the minimum value
   const Node<T>* minimum() const{ return minimum(root); }
   const Node<T>* minimum(Node<T>* node) const{
-    //TODO
+    if (node == nullptr) {
+      return node;
+    }
+    if (node->llink == nullptr) {
+      return node;
+    }
+    return minimum(node->llink);
   }
 
-  /* Returns the node with the maximum value */
+  //Returns the node with the maximum value
   const Node<T>* maximum() const { return maximum(root); }
   const Node<T>* maximum(Node<T>* node) const {
-    //TODO
+    if (node == nullptr) {
+      return node;
+    }
+    if (node->rlink == nullptr) {
+      return node;
+    }
+    return minimum(node->rlink);
   }
 
   /* Returns how many node in a tree */
