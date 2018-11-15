@@ -1,6 +1,16 @@
 #ifndef _BINARY_SEARCH_TREE_H_
 #define _BINARY_SEARCH_TREE_H_
 
+
+
+
+
+
+
+
+
+
+
 /* PART 1: implemenation */
 template <typename T>
 struct Node {
@@ -30,7 +40,19 @@ public:
   /* Returns how many nodes in the longest path between the root and a child */
   int height() const { return height(root); }
   int height(const Node<T> *node) const {
-    //TODO
+    if (node != nullptr){
+      return 0;
+    } else {
+      return 1 + max(height(node->llink), height(node->rlink));
+    }
+  }
+
+  //to help height function
+  int max(int x, int y) const {
+    if (x >= y)
+      return x;
+    else
+      return y;
   }
 
   /* Returns how many links between nodes it takes to get to node from the root */
@@ -189,6 +211,18 @@ private:
     }
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* PART 2: Tree-traversal functions */
 template <typename T> 
