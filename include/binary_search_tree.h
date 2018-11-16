@@ -29,7 +29,7 @@ public:
   //Returns how many nodes in the longest path between the root and a child
   int height() const { return height(root); }
   int height(const Node<T> *node) const {
-    if (node != nullptr){
+    if (node == nullptr){
       return 0;
     } else {
       return 1 + max(height(node->llink), height(node->rlink));
@@ -66,11 +66,11 @@ public:
 
   //Returns the node with the minimum value
   const Node<T>* minimum() const{ return minimum(root); }
+  //recursive function, will call until there is no more left links
   const Node<T>* minimum(Node<T>* node) const{
     if (node == nullptr) {
       return node;
-    }
-    if (node->llink == nullptr) {
+    } else if (node->llink == nullptr) {
       return node;
     }
     return minimum(node->llink);
@@ -78,11 +78,11 @@ public:
 
   //Returns the node with the maximum value
   const Node<T>* maximum() const { return maximum(root); }
+  //recursive function, will call until there is no more right links
   const Node<T>* maximum(Node<T>* node) const {
     if (node == nullptr) {
       return node;
-    }
-    if (node->rlink == nullptr) {
+    } else if (node->rlink == nullptr) {
       return node;
     }
     return minimum(node->rlink);
@@ -113,9 +113,26 @@ public:
     }
   }
 
-  // Puts the nodes of the tree into an array in ascending or descending order
+  //Puts the nodes of the tree into an array in ascending or descending order
   void toSortedArray(Node<T>* &array, bool reversed = false){
+    Node<T>* temporary;
+    T* nodeArray = new T[100];
+    int i = 0;
 
+    if (!reversed)
+    {
+      temporary->info = (minimum(array))->info;
+      nodeArray[i] = temporary->info;
+      i++;
+      remove(temporary->info);
+    }
+    else {
+      temporary->info = (maximum(array))->info;
+      nodeArray[i] = temporary->info;
+      i++;
+      remove(temporary->info);
+    }
+    array = nodeArray;
   }
 
   /* Implements inorder traversal */
@@ -151,20 +168,25 @@ public:
   //Returns true if e was found
   const Node<T>* search(T e) const{
     Node<T>* current;
-    current = root;
-    while (current != nullptr) {
-      if (current->info == e) {
-        return current;
-      }
-      else if (current->info > e) {
-        current = current->llink;
-      }
-      else {
-        current = current->rlink;
-      }
+    if (root == nullptr){
+      return 0;
     }
-    return nullptr;
-  }  
+    else {
+      current = root;
+
+      while (current != nullptr){
+        if (current->info == e){
+          return current;
+        }
+        else if (current->info > e){
+          current = current->llink;
+        }
+        else {
+          current = current->rlink;
+        }
+      }//end while
+    }//end else
+  }
 
   /* Returns true if e was successfully inserted */
   bool insert(T e){
@@ -214,7 +236,6 @@ public:
         return true;
       }
     }
-
     return false;
   }
 
