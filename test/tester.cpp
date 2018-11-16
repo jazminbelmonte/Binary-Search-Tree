@@ -14,6 +14,7 @@ void showFUNC(const Node<T>* node, int depth){
 
 TEST_CASE("Test Binary Search Tree Function") {
   BinarySearchTree<int> nums;
+  BinarySearchTree<int> nums2;
   CHECK(nums.height() == 0);
   CHECK(nums.size() == 0);
   CHECK(nums.leavesCount() == 0);
@@ -37,7 +38,8 @@ TEST_CASE("Test Binary Search Tree Function") {
   CHECK(nums.level(7) == 3);
   CHECK(nums.minimum()->info == 6);
   CHECK(nums.maximum()->info == 17);
-
+  nums2 = nums;
+  
   nums.inorderTraversal(showFUNC);
   CHECK(sout.str() == "<6><7><8><9><10><14><17>");
   sout.str("");
@@ -51,7 +53,7 @@ TEST_CASE("Test Binary Search Tree Function") {
   CHECK(array1[6].info == 17);
 
   Node<int>* array2;
-  nums.toSortedArray(array2, true);
+  nums2.toSortedArray(array2, true);
   CHECK(array2[0].info == 17);
   CHECK(array2[6].info == 6);
 }

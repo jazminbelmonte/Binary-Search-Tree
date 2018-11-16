@@ -39,17 +39,26 @@ int main(){
   alphabet.insert('V');
   alphabet.insert('X');
   alphabet.insert('Z');
+  BinarySearchTree<char> alphabetbackwards;
+  alphabetbackwards = alphabet;
+
+  cout << "height: " << alphabet.height() << endl << endl;
 
   //should traverse this tree and print it out to the console.
-  alphabet.showTree();
+  alphabet.inorderTraversal();
 
   //array of nodes in increasing order from A to Z
   Node<char>* ascendingAlpha;
   alphabet.toSortedArray(ascendingAlpha);
+  cout << ascendingAlpha[0].info << endl;
+  cout << ascendingAlpha[25].info << endl;
 
   //array of nodes in increasing order from Z to A
+  cout << endl;
   Node<char>* descendingAlpha;
-  alphabet.toSortedArray(descendingAlpha, true);
+  alphabetbackwards.toSortedArray(descendingAlpha, true);
+  cout << descendingAlpha[0].info << endl;
+  cout << descendingAlpha[25].info << endl;
 
   return 0;
 

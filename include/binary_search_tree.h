@@ -115,24 +115,25 @@ public:
 
   //Puts the nodes of the tree into an array in ascending or descending order
   void toSortedArray(Node<T>* &array, bool reversed = false){
-    /*Node<T>* temporary;
-    T* nodeArray = new T[100];
-    int i = 0;
 
-    if (!reversed)
-    {
-      temporary->info = (minimum(array))->info;
-      nodeArray[i] = temporary->info;
-      i++;
-      remove(temporary->info);
+    int sz = size();
+
+    array = new Node<T>[sz];
+
+    if (root == nullptr){
+      return;
     }
-    else {
-      temporary->info = (maximum(array))->info;
-      nodeArray[i] = temporary->info;
-      i++;
-      remove(temporary->info);
+    if(!reversed){
+      for (int i = 0; i < sz; i++){
+        array[i] = minimum()->info;
+        remove(minimum()->info);
+      }
+    } else if (reversed){
+      for (int i = 0; i < sz; i++){
+        array[i] = maximum()->info;
+        remove(maximum()->info);
+      }
     }
-    array = nodeArray;*/
   }
 
   /* Implements inorder traversal */
@@ -214,28 +215,30 @@ public:
       root = new Node<T>(e);
     }
     return true;
-  } 
+  }
 
-  void remove(T e){
-    remove(root, e);
+  bool remove(T e){
+    return remove(root, e);
   }
   
   /* Returns true if e was successfully deleted */
-  void remove(Node<T>* &node, T e){
+  bool remove(Node<T>* &node, T e){
     if(node){
       if(e < node->info){
-        remove(node->llink, e);
+        return remove(node->llink, e);
       }else if(e > node->info){
-        remove(node->rlink, e);
-      }else if(node->llink && node->rlink) { // Two children
+        return remove(node->rlink, e);
+      }else if(node->llink && node->rlink) {// Two children
         node->info = maximum(node->llink)->info;
-        remove(node->llink, node->info);
+        return remove(node->llink, node->info);
       }else{
         Node<T> *temp = node;
         node  = (node->llink ) ? node->llink : node->rlink;
         delete temp;
+        return true;
       }
     }
+    return false;
   }
 
   ~BinarySearchTree(){ destroy(root); }
