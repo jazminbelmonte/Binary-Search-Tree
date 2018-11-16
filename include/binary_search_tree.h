@@ -85,7 +85,7 @@ public:
     } else if (node->rlink == nullptr) {
       return node;
     }
-    return minimum(node->rlink);
+    return maximum(node->rlink);
   }
 
   //Returns how many node in a tree
@@ -115,7 +115,7 @@ public:
 
   //Puts the nodes of the tree into an array in ascending or descending order
   void toSortedArray(Node<T>* &array, bool reversed = false){
-    Node<T>* temporary;
+    /*Node<T>* temporary;
     T* nodeArray = new T[100];
     int i = 0;
 
@@ -132,7 +132,7 @@ public:
       i++;
       remove(temporary->info);
     }
-    array = nodeArray;
+    array = nodeArray;*/
   }
 
   /* Implements inorder traversal */
@@ -186,6 +186,7 @@ public:
         }
       }//end while
     }//end else
+    return current;
   }
 
   /* Returns true if e was successfully inserted */
@@ -215,28 +216,26 @@ public:
     return true;
   } 
 
-  bool remove(T e){
-    return remove(root, e);
+  void remove(T e){
+    remove(root, e);
   }
   
   /* Returns true if e was successfully deleted */
-  bool remove(Node<T>* &node , T e){
+  void remove(Node<T>* &node, T e){
     if(node){
       if(e < node->info){
-        return remove(node->llink, e);
+        remove(node->llink, e);
       }else if(e > node->info){
-        return remove(node->rlink, e);
-      }else if(node->llink && node->rlink) {// Two children
+        remove(node->rlink, e);
+      }else if(node->llink && node->rlink) { // Two children
         node->info = maximum(node->llink)->info;
-        return remove(node->llink, node->info);
+        remove(node->llink, node->info);
       }else{
         Node<T> *temp = node;
         node  = (node->llink ) ? node->llink : node->rlink;
         delete temp;
-        return true;
       }
     }
-    return false;
   }
 
   ~BinarySearchTree(){ destroy(root); }
@@ -266,7 +265,7 @@ private:
 
 //PART 2
 template <typename T> 
-void showTree(const Node<T>* node, int depth){
+void showFunc(const Node<T>* node, int depth){
 
 }
 #endif
