@@ -43,8 +43,8 @@ int main(){
 
   cout << endl << "height: " << alphabet.height() << endl << endl;
 
-  //should traverse the tree and print it out to the console.
-  //in a easy to read way
+  //traverses the tree and prints it out to the console
+  //in a easy to read way.
   alphabet.inorderTraversal(showFunc);
 
   //array of nodes in increasing order from A to Z
