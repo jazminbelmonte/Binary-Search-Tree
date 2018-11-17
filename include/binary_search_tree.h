@@ -27,6 +27,7 @@ public:
   bool empty() const { return root == nullptr; }
 
   //Returns how many nodes in the longest path between the root and a child
+  //recursive function, will keep adding 1 until no more left or right links
   int height() const { return height(root); }
   int height(const Node<T> *node) const {
     if (node == nullptr){
@@ -36,7 +37,7 @@ public:
     }
   }
 
-  //to help height function
+  //to help height function (from example in textbook)
   int max(int x, int y) const {
     if (x >= y)
       return x;
@@ -46,9 +47,11 @@ public:
 
   //Returns how many links it takes to get to node from the root
   int level(T e) const{
+    //counter int to keep track
     int c = 0;
     Node<T>* current = root;
-    while (current != nullptr) {
+    while (current != nullptr) { //while statement will keep going until
+                                 //there is no more levels to count
       if (current->info == e) {
         return c;
       }
@@ -89,6 +92,7 @@ public:
   }
 
   //Returns how many node in a tree
+  //recursive function, will call until no more links to count
   int size() const { return size(root); }
   int size(const Node<T>* node) const {
     if(node){
@@ -115,7 +119,6 @@ public:
 
   //Puts the nodes of the tree into an array in ascending or descending order
   void toSortedArray(Node<T>* &array, bool reversed = false){
-
     int sz = size();
 
     array = new Node<T>[sz];
@@ -123,12 +126,12 @@ public:
     if (root == nullptr){
       return;
     }
-    if(!reversed){
+    if(!reversed){ //if in ascending order just keep adding the minimums
       for (int i = 0; i < sz; i++){
         array[i] = minimum()->info;
         remove(minimum()->info);
       }
-    } else if (reversed){
+    } else if (reversed){ //if in descending order keep adding the maximums
       for (int i = 0; i < sz; i++){
         array[i] = maximum()->info;
         remove(maximum()->info);
@@ -136,40 +139,11 @@ public:
     }
   }
 
-  /* Implements inorder traversal */
-  void inorderTraversal(void (*showFunc)(const Node<T>*, int)) const { inorderTraversal(showFunc, root, 0); }
-  void inorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const{
-    if(node){
-      inorderTraversal(showFunc, node->llink, depth + 1);
-      showFunc(node, depth);
-      inorderTraversal(showFunc, node->rlink, depth + 1);
-    }
-  }
-
-   /* Implements preorder traversal */
-  void preorderTraversal(void (*showFunc)(const Node<T>*, int)) const { preorderTraversal(showFunc, root, 0); }
-  void preorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const {
-    if (node){
-      showFunc(node, depth);
-      preorderTraversal(showFunc, node->llink, depth + 1);
-      preorderTraversal(showFunc, node->rlink, depth + 1);
-    }
-  }
-
-   /* Implements postorder traversal */
-  void postorderTraversal(void (*showFunc)(const Node<T>*, int)) const { postorderTraversal(showFunc, root, 0); }
-  void postorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const {
-    if(node){
-      postorderTraversal(showFunc, node->llink, depth + 1);
-      postorderTraversal(showFunc, node->rlink, depth + 1);
-      showFunc(node, depth);
-    }
-  }
-
-  //Returns true if e was found
+  //Searches for e and returns the node where e was found,
+  //if it was found
   const Node<T>* search(T e) const{
     Node<T>* current;
-    if (root == nullptr){
+    if (root == nullptr){ //empty tree
       return 0;
     }
     else {
@@ -190,7 +164,7 @@ public:
     return current;
   }
 
-  /* Returns true if e was successfully inserted */
+  // Returns true if e was successfully inserted
   bool insert(T e){
     if(root){
       auto current = root;
@@ -221,7 +195,7 @@ public:
     return remove(root, e);
   }
   
-  /* Returns true if e was successfully deleted */
+  //Returns true if e was successfully deleted
   bool remove(Node<T>* &node, T e){
     if(node){
       if(e < node->info){
@@ -239,6 +213,36 @@ public:
       }
     }
     return false;
+  }
+
+  /* Implements inorder traversal */
+  void inorderTraversal(void (*showFunc)(const Node<T>*, int)) const { inorderTraversal(showFunc, root, 0); }
+  void inorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const{
+    if(node){
+      inorderTraversal(showFunc, node->llink, depth + 1);
+      showFunc(node, depth);
+      inorderTraversal(showFunc, node->rlink, depth + 1);
+    }
+  }
+
+  /* Implements preorder traversal */
+  void preorderTraversal(void (*showFunc)(const Node<T>*, int)) const { preorderTraversal(showFunc, root, 0); }
+  void preorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const {
+    if (node){
+      showFunc(node, depth);
+      preorderTraversal(showFunc, node->llink, depth + 1);
+      preorderTraversal(showFunc, node->rlink, depth + 1);
+    }
+  }
+
+  /* Implements postorder traversal */
+  void postorderTraversal(void (*showFunc)(const Node<T>*, int)) const { postorderTraversal(showFunc, root, 0); }
+  void postorderTraversal(void (*showFunc)(const Node<T>*, int), const Node<T> *node, int depth) const {
+    if(node){
+      postorderTraversal(showFunc, node->llink, depth + 1);
+      postorderTraversal(showFunc, node->rlink, depth + 1);
+      showFunc(node, depth);
+    }
   }
 
   ~BinarySearchTree(){ destroy(root); }
@@ -269,6 +273,16 @@ private:
 //PART 2
 template <typename T> 
 void showFunc(const Node<T>* node, int depth){
-
+  if (node == nullptr){
+    return;
+  }
+  else if (node != nullptr){
+    if (depth > 0) {
+      std::cout << std::setw(depth+2) << " ";
+    }
+    std::cout << std::setw(depth) << node->info << std::endl;
+    //for testing purposes
+    //std::cout << "i should print: " << node->info << std::endl;
+  }
 }
 #endif

@@ -8,7 +8,7 @@ using namespace std;
 //PART 3
 int main(){
   BinarySearchTree<char> alphabet;
-
+  BinarySearchTree<char> alphabetbackwards;
   //inserting the letters in this order
   //should return a balanced binary tree
   //that has a height of 5
@@ -39,26 +39,27 @@ int main(){
   alphabet.insert('V');
   alphabet.insert('X');
   alphabet.insert('Z');
-  BinarySearchTree<char> alphabetbackwards;
   alphabetbackwards = alphabet;
 
-  cout << "height: " << alphabet.height() << endl << endl;
+  cout << endl << "height: " << alphabet.height() << endl << endl;
 
-  //should traverse this tree and print it out to the console.
-  alphabet.inorderTraversal();
+  //should traverse the tree and print it out to the console.
+  //in a easy to read way
+  alphabet.inorderTraversal(showFunc);
 
   //array of nodes in increasing order from A to Z
   Node<char>* ascendingAlpha;
   alphabet.toSortedArray(ascendingAlpha);
   cout << ascendingAlpha[0].info << endl;
-  cout << ascendingAlpha[25].info << endl;
+  cout << ascendingAlpha[25].info << endl << endl;
 
   //array of nodes in increasing order from Z to A
-  cout << endl;
   Node<char>* descendingAlpha;
   alphabetbackwards.toSortedArray(descendingAlpha, true);
   cout << descendingAlpha[0].info << endl;
   cout << descendingAlpha[25].info << endl;
+
+
 
   return 0;
 
